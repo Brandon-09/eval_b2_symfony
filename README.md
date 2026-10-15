@@ -44,8 +44,8 @@ Compte admin (ROLE_ADMIN)
   Mot de passe : ...
 
 Compte utilisateur
-  Email        : ...
-  Mot de passe : ...
+  Email        : brandon@mail.com
+  Mot de passe : Youenn69
 ```
 
 Commitez aussi la **base SQLite** avec quelques événements, utilisateurs et inscriptions de test. Le dossier `var/` étant ignoré par Git, il faut forcer l'ajout :

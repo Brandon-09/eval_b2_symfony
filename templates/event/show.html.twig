@@ -1,50 +1,163 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Soirée jazz au Kiosque{% endblock %}
+{% block title %}{{ event.title }}{% endblock %}
 
 {% block body %}
-    <a class="back-link" href="{{ path('app_home') }}">← Retour aux événements</a>
 
-    <article class="cat-concert">
-        <header class="detail-hero" style="background-image: url('{{ asset('images/concert.jpg') }}')">
+    <a class="back-link" href="{{ path('app_home') }}">
+        ← Retour aux événements
+    </a>
+
+    <article class="cat-{{ event.category }}">
+
+        <header
+            class="detail-hero"
+            style="background-image: url('{{ event.image ? asset('uploads/events/' ~ event.image) : asset('images/concert.jpg') }}')"
+        >
             <div class="detail-hero-content">
-                <span class="badge">Concert</span>
-                <h1>Soirée jazz au Kiosque</h1>
-                <p>Samedi 07/11/2026 · 20h30</p>
+
+                <span class="badge">
+                    {{ event.category|capitalize }}
+                </span>
+
+                <h1>{{ event.title }}</h1>
+
+                <p>
+                    {{ event.date|date('d/m/Y') }}
+                    ·
+                    {{ event.date|date('H\\hi') }}
+                </p>
+
             </div>
         </header>
 
         <div class="detail-grid">
+
             <section class="card">
+
                 <h2>Informations</h2>
-                <p>Le quartet CuRuba vous propose une soirée de jazz antillais au Kiosque du parc municipal.</p>
-                <p>Programme : 20h30 première partie, 21h30 concert principal. Buvette sur place, entrée libre sur inscription.</p>
+
+                <p>{{ event.information|nl2br }}</p>
+
             </section>
 
             <aside class="card booking">
-                <p class="places"><strong>12</strong> places restantes sur 80</p>
-                <div class="progress"><span style="width: 85%"></span></div>
 
-                <form method="post">
-                    <button type="submit" class="btn btn-block">S'inscrire</button>
-                </form>
+                {# Messages de confirmation et d'erreur #}
+                {% for message in app.flashes('success') %}
+                    <div class="flash flash-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
-                {# Variante quand l'utilisateur est déjà inscrit :
-                <p class="muted">Vous êtes inscrit à cet événement.</p>
-                <form method="post">
-                    <button type="submit" class="btn btn-secondary btn-block">Se désinscrire</button>
-                </form>
-                #}
+                {% for message in app.flashes('error') %}
+                    <div class="flash flash-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
-                {# Variante quand l'événement est complet :
-                <p class="places"><span class="badge badge-full">Complet</span></p>
-                <button class="btn btn-block" disabled>Complet</button>
-                #}
+                {# Calcul des places #}
+                {% set remaining = event.remainingPlaces %}
+                {% set total = event.maxPlaces %}
 
-                {# Variante quand l'utilisateur n'est pas connecté :
-                <a class="btn btn-block" href="{{ path('app_login') }}">Connectez-vous pour vous inscrire</a>
-                #}
+                {# Vérifier si l'utilisateur est inscrit #}
+                {% set isRegistered = app.user and event.participants.contains(app.user) %}
+
+                <p class="places">
+                    <strong>{{ remaining }}</strong>
+                    places restantes sur {{ total }}
+                </p>
+
+                {# Barre de progression #}
+                <div class="progress">
+                    <span
+                        style="width: {{ total > 0 ? ((total - remaining) / total * 100)|round : 0 }}%"
+                    ></span>
+                </div>
+
+                {# CAS 1 : utilisateur déjà inscrit #}
+                {% if isRegistered %}
+
+                    <p class="muted">
+                        Vous êtes inscrit à cet événement.
+                    </p>
+
+                    <form
+                        method="post"
+                        action="{{ path('app_event_unregister', {'id': event.id}) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('unregister_event_' ~ event.id) }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-secondary btn-block"
+                        >
+                            Se désinscrire
+                        </button>
+                    </form>
+
+                {# CAS 2 : événement non validé ou passé #}
+                {% elseif not event.isValidated or event.date < date() %}
+
+                    <p class="muted">
+                        Les inscriptions ne sont pas ouvertes.
+                    </p>
+
+                {# CAS 3 : événement complet #}
+                {% elseif remaining <= 0 %}
+
+                    <p class="places">
+                        <span class="badge badge-full">
+                            Complet
+                        </span>
+                    </p>
+
+                    <button class="btn btn-block" disabled>
+                        Complet
+                    </button>
+
+                {# CAS 4 : utilisateur non connecté #}
+                {% elseif not app.user %}
+
+                    <a
+                        class="btn btn-block"
+                        href="{{ path('app_login') }}"
+                    >
+                        Connectez-vous pour vous inscrire
+                    </a>
+
+                {# CAS 5 : utilisateur connecté, places disponibles #}
+                {% else %}
+
+                    <form
+                        method="post"
+                        action="{{ path('app_event_register', {'id': event.id}) }}"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('register_event_' ~ event.id) }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-block"
+                        >
+                            S'inscrire
+                        </button>
+                    </form>
+
+                {% endif %}
+
             </aside>
+
         </div>
+
     </article>
+
 {% endblock %}

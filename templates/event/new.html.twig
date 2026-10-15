@@ -4,51 +4,82 @@
 
 {% block body %}
     <div class="narrow">
-        <a class="back-link" href="{{ path('app_home') }}">← Retour aux événements</a>
+        <a class="back-link" href="{{ path('app_home') }}">
+            ← Retour aux événements
+        </a>
 
         <div class="card">
             <h1>Ajouter un événement</h1>
-            <p class="muted">Votre événement sera visible après validation par un administrateur.</p>
 
-            <form class="form" method="post" enctype="multipart/form-data">
+            <p class="muted">
+                Votre événement sera visible après validation par un administrateur.
+            </p>
+
+            {{ form_start(form, {'attr': {'class': 'form'}}) }}
+
                 <div>
-                    <label for="event_title" class="required">Titre</label>
-                    <input type="text" id="event_title" name="event[title]" placeholder="Ex. : Soirée jazz au Kiosque" required>
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.title, {
+                        'attr': {
+                            'placeholder': 'Ex. : Soirée jazz au Kiosque'
+                        }
+                    }) }}
+                    {{ form_errors(form.title) }}
                 </div>
 
                 <div>
-                    <label for="event_date" class="required">Date</label>
-                    <input type="datetime-local" id="event_date" name="event[date]" required>
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date) }}
+                    {{ form_errors(form.date) }}
                 </div>
 
                 <div>
-                    <label for="event_information" class="required">Informations</label>
-                    <textarea id="event_information" name="event[information]" placeholder="Lieu, programme, tarif..." required></textarea>
+                    {{ form_label(form.information) }}
+                    {{ form_widget(form.information, {
+                        'attr': {
+                            'placeholder': 'Lieu, programme, tarif...'
+                        }
+                    }) }}
+                    {{ form_errors(form.information) }}
                 </div>
 
                 <div>
-                    <label for="event_category">Catégorie</label>
-                    <select id="event_category" name="event[category]">
-                        <option value="Concert">Concert</option>
-                        <option value="Conférence">Conférence</option>
-                        <option value="Atelier">Atelier</option>
-                        <option value="Sport">Sport</option>
-                    </select>
+                    {{ form_label(form.category) }}
+                    {{ form_widget(form.category) }}
+                    {{ form_errors(form.category) }}
                 </div>
 
                 <div>
-                    <label for="event_places">Nombre de places</label>
-                    <input type="number" id="event_places" name="event[places]" min="1" value="20">
+                    {{ form_label(form.maxPlaces) }}
+                    {{ form_widget(form.maxPlaces, {
+                        'attr': {
+                            'min': 1
+                        }
+                    }) }}
+                    {{ form_errors(form.maxPlaces) }}
                 </div>
 
                 <div>
-                    <label for="event_image">Image à la une</label>
-                    <input type="file" id="event_image" name="event[image]" accept="image/*">
-                    <div class="help-text">JPG, PNG ou WebP.</div>
+                    {{ form_label(form.imageFile) }}
+                    {{ form_widget(form.imageFile, {
+                        'attr': {
+                            'accept': 'image/jpeg,image/png,image/webp'
+                        }
+                    }) }}
+                    {{ form_errors(form.imageFile) }}
+
+                    <div class="help-text">
+                        JPG, PNG ou WebP.
+                    </div>
                 </div>
 
-                <button type="submit">Enregistrer l'événement</button>
-            </form>
+                {{ form_errors(form) }}
+
+                <button type="submit">
+                    Enregistrer l'événement
+                </button>
+
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}
