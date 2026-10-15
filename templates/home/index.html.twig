@@ -15,10 +15,11 @@
     <div class="section-head">
         <h2>À venir</h2>
         <ul class="legend">
-            <li class="cat-concert">Concert</li>
-            <li class="cat-conference">Conférence</li>
-            <li class="cat-atelier">Atelier</li>
-            <li class="cat-sport">Sport</li>
+            <li><a class="active" href="{{ path('app_home') }}">Toutes</a></li>
+            <li class="cat-concert"><a href="{{ path('app_home', {categorie: 'concert'}) }}">Concert</a></li>
+            <li class="cat-conference"><a href="{{ path('app_home', {categorie: 'conference'}) }}">Conférence</a></li>
+            <li class="cat-atelier"><a href="{{ path('app_home', {categorie: 'atelier'}) }}">Atelier</a></li>
+            <li class="cat-sport"><a href="{{ path('app_home', {categorie: 'sport'}) }}">Sport</a></li>
         </ul>
     </div>
 

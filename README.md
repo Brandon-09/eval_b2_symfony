@@ -11,6 +11,9 @@ Le design est **déjà fait** : toutes les pages existent en HTML/CSS statique. 
 > **Ne commitez et ne poussez JAMAIS sur ce dépôt.** Vous travaillez uniquement sur **votre fork**.
 
 1. Rendez-vous sur <https://github.com/louvelmathieu/eval_b2_symfony> et cliquez sur le bouton **Fork** en haut à droite.
+
+   > Votre fork doit être **public** : c'est lui qui sera corrigé. Utilisez bien le bouton **Fork** (le fork d'un dépôt public est public par défaut) et ne faites pas de copie privée du projet.
+
 2. Clonez **votre fork** (et non le dépôt d'origine) :
 
    ```bash
@@ -143,17 +146,19 @@ php bin/console doctrine:migrations:migrate
 
 4. Sur la page d'accueil, rajouter une **couleur différente** sur chaque événement suivant sa catégorie.
 
-5. Chaque titre est un lien vers la page de détail de l'événement (`/evenement/{id}`), avec une **page 404** si l'événement n'existe pas.
+5. Sur la page d'accueil, les catégories sont **cliquables** : un clic sur une catégorie n'affiche que les événements de cette catégorie (ex. : `/?categorie=concert`), « Toutes » réaffiche la liste complète. La catégorie sélectionnée est mise en évidence (classe `active`).
 
-6. Ajouter la **création de compte** et la **connexion** : tout le monde peut créer un événement, seuls les connectés s'inscrivent.
+6. Chaque titre est un lien vers la page de détail de l'événement (`/evenement/{id}`), avec une **page 404** si l'événement n'existe pas.
 
-7. Sur la page de détail, un bouton « **S'inscrire** » permet de participer à l'événement. Le nombre de places disponibles diminue et l'utilisateur est ajouté à la liste des inscrits.
+7. Ajouter la **création de compte** et la **connexion** : tout le monde peut créer un événement, seuls les connectés s'inscrivent.
 
-8. Un utilisateur inscrit peut **se désinscrire** d'un événement.
+8. Sur la page de détail, un bouton « **S'inscrire** » permet de participer à l'événement. Le nombre de places disponibles diminue et l'utilisateur est ajouté à la liste des inscrits.
 
-9. Afficher le **nombre de places restantes** et un badge « **Complet** » quand il n'y en a plus, l'inscription est alors bloquée.
+9. Un utilisateur inscrit peut **se désinscrire** d'un événement.
 
-10. Seuls les admins (`ROLE_ADMIN`) accèdent à la page `/validate` : liste des événements « Non validé » avec un bouton **Valider**.
+10. Afficher le **nombre de places restantes** et un badge « **Complet** » quand il n'y en a plus, l'inscription est alors bloquée.
+
+11. Seuls les admins (`ROLE_ADMIN`) accèdent à la page `/validate` : liste des événements « Non validé » avec un bouton **Valider**.
 
 ---
 
