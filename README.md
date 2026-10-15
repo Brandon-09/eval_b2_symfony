@@ -40,11 +40,11 @@ Nom       : GUEYE
 Prénom    : Max Brandon
 
 Compte admin (ROLE_ADMIN)
-  Email        : ...
-  Mot de passe : ...
+  Email        : brandon@mail.com
+  Mot de passe : Youenn69
 
 Compte utilisateur
-  Email        : brandon@mail.com
+  Email        : daniel@mail.com
   Mot de passe : Youenn69
 ```
 
