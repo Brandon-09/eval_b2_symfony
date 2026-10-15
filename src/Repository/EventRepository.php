@@ -6,9 +6,6 @@ use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Event>
- */
 class EventRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,25 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findUpcomingValidated(?string $categorie = null): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.isValidated = :validated')
+            ->andWhere('e.date >= :now')
+            ->setParameter('validated', true)
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.date', 'ASC');
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($categorie !== null && in_array($categorie, [
+            'concert',
+            'conference',
+            'atelier',
+            'sport'
+        ], true)) {
+            $qb->andWhere('e.category = :categorie')
+               ->setParameter('categorie', $categorie);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
