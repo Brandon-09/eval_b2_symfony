@@ -12,20 +12,20 @@ Le design est **déjà fait** : toutes les pages existent en HTML/CSS statique. 
 
 1. Rendez-vous sur <https://github.com/louvelmathieu/eval_b2_symfony> et cliquez sur le bouton **Fork** en haut à droite.
 
-   > Votre fork doit être **public** : c'est lui qui sera corrigé. Utilisez bien le bouton **Fork** (le fork d'un dépôt public est public par défaut) et ne faites pas de copie privée du projet.
+    > Votre fork doit être **public** : c'est lui qui sera corrigé. Utilisez bien le bouton **Fork** (le fork d'un dépôt public est public par défaut) et ne faites pas de copie privée du projet.
 
 2. Clonez **votre fork** (et non le dépôt d'origine) :
 
-   ```bash
-   git clone https://github.com/<votre-compte>/eval_b2_symfony.git
-   cd eval_b2_symfony
-   ```
+    ```bash
+    git clone https://github.com/<votre-compte>/eval_b2_symfony.git
+    cd eval_b2_symfony
+    ```
 
 3. Vérifiez que `origin` pointe bien vers **votre** compte :
 
-   ```bash
-   git remote -v
-   ```
+    ```bash
+    git remote -v
+    ```
 
 4. Commitez régulièrement sur votre fork, avec des messages clairs.
 
@@ -36,8 +36,8 @@ Le design est **déjà fait** : toutes les pages existent en HTML/CSS statique. 
 Le rendu se fait sur **votre fork**. Avant la date limite, complétez ce bloc (remplacez les `...`) et commitez-le :
 
 ```text
-Nom       : ...
-Prénom    : ...
+Nom       : GUEYE
+Prénom    : Max Brandon
 
 Compte admin (ROLE_ADMIN)
   Email        : ...
@@ -106,15 +106,15 @@ php bin/console doctrine:migrations:migrate
 
 ## Ce qui est fourni
 
-| URL | Route | Template |
-|---|---|---|
-| `/` | `app_home` | `home/index.html.twig` |
-| `/evenement/ajouter` | `app_event_new` | `event/new.html.twig` |
-| `/evenement/{id}` | `app_event_show` | `event/show.html.twig` |
-| `/validate` | `app_validate` | `validate/index.html.twig` |
-| `/login` | `app_login` | `security/login.html.twig` |
-| `/register` | `app_register` | `registration/register.html.twig` |
-| (page 404) | – | `bundles/TwigBundle/Exception/error404.html.twig` |
+| URL                  | Route            | Template                                          |
+| -------------------- | ---------------- | ------------------------------------------------- |
+| `/`                  | `app_home`       | `home/index.html.twig`                            |
+| `/evenement/ajouter` | `app_event_new`  | `event/new.html.twig`                             |
+| `/evenement/{id}`    | `app_event_show` | `event/show.html.twig`                            |
+| `/validate`          | `app_validate`   | `validate/index.html.twig`                        |
+| `/login`             | `app_login`      | `security/login.html.twig`                        |
+| `/register`          | `app_register`   | `registration/register.html.twig`                 |
+| (page 404)           | –                | `bundles/TwigBundle/Exception/error404.html.twig` |
 
 - Les **contrôleurs** ne font qu'afficher les templates : à vous de les compléter.
 - Les **formulaires** sont en HTML brut et ne sont pas traités : remplacez-les par des formulaires Symfony. Le CSS cible les balises (`label`, `input`, `select`…), donc `{{ form(form) }}` s'affiche correctement sans rien changer.
@@ -135,12 +135,12 @@ php bin/console doctrine:migrations:migrate
 1. La page d'accueil affiche la date et le titre des événements **à venir** et **validés** (pas les passés) et un lien pour en ajouter un.
 
 2. Sur la page pour ajouter un événement, un formulaire s'affiche avec les champs :
-   - **Titre**
-   - **Date**
-   - **Informations** : description de l'événement (lieu, programme…)
-   - **Catégorie** : liste déroulante avec « Concert » / « Conférence » / « Atelier » / « Sport »
-   - **Nombre de places**
-   - **Image à la une** : upload d'une image, affichée sur la page d'accueil et sur la page de détail (doc : <https://symfony.com/doc/7.4/controller/upload_file.html>)
+    - **Titre**
+    - **Date**
+    - **Informations** : description de l'événement (lieu, programme…)
+    - **Catégorie** : liste déroulante avec « Concert » / « Conférence » / « Atelier » / « Sport »
+    - **Nombre de places**
+    - **Image à la une** : upload d'une image, affichée sur la page d'accueil et sur la page de détail (doc : <https://symfony.com/doc/7.4/controller/upload_file.html>)
 
 3. Le titre, la date et les informations sont **obligatoires**, le nombre de places doit être **supérieur à 0**. À l'ajout, l'événement a le statut « **Non validé** ».
 
@@ -168,8 +168,8 @@ php bin/console doctrine:migrations:migrate
 - Les commandes `make:security:form-login` et `make:registration-form` génèrent `SecurityController` et `RegistrationController`, qui **existent déjà** : supprimez le contrôleur fourni avant de lancer la commande, puis reprenez le HTML du template fourni.
 - Pour donner le rôle admin à un utilisateur :
 
-  ```bash
-  php bin/console dbal:run-sql "UPDATE user SET roles = '[\"ROLE_ADMIN\"]' WHERE email = 'admin@test.fr'"
-  ```
+    ```bash
+    php bin/console dbal:run-sql "UPDATE user SET roles = '[\"ROLE_ADMIN\"]' WHERE email = 'admin@test.fr'"
+    ```
 
 - Lister les routes : `php bin/console debug:router`
